@@ -49,10 +49,10 @@ int main(int argc, char **argv) {
 				printf("decq %%rbx\n");
 				break;
 			case '+':
-				printf("incq (%%rbx)\n");
+				printf("incb (%%rbx)\n");
 				break;
 			case '-':
-				printf("decq (%%rbx)\n");
+				printf("decb (%%rbx)\n");
 				break;
 			case '.':
 				printf("movb (%%rbx), %%cl\n"); // char tmp = *memptr
@@ -71,7 +71,7 @@ int main(int argc, char **argv) {
 				printf("syscall\n");
 				// if read returns (in %eax) 0 aka EOF, then put 0 in the cell
 				printf("mulb (%%rbx)\n");
-				printf("movq %%rax, (%%rbx)\n");
+				printf("movb %%al, (%%rbx)\n");
 				break;
 			case '[':
 				loop_stack[loop_stack_size++] = loop_counter++;

@@ -27,9 +27,7 @@ int main(int argc, char **argv) {
 			ch2--;
 		}
 
-		printf(">");
 		argv[1]++;
 	}
-	printf("\n");
 	return 1;
 }
