@@ -11,22 +11,27 @@
 	found at https://github.com/michaelfm1211/ec
 
 	To bootstrap this compiler, run the following:
-		tools/bfc < bf.bf > out.S
-		as out.S -o out.o
-		gcc -o out out.o -nostdlib -static
-	or alternatively using ec
-		tools/bfc < bf.bf > out.S
-		ec out.S build
-	The new compiler binary will named "out".
+		# Build the stage1 compiler tools/bfc
+		cd tools
+		gcc -Wall -Wextra -Werror -pedantic -o bfc bfc.c
+		cd ..
 
-	To use this compiler, see the following example of compiling
-	tests/hello.bf:
-		./out < tests/hello.bf > out.S
-		ec out.S build
-		./out
-	or to compile itself
-		./out < bf.f > out.S
-		ec out.S build
+		# Build the stage2 compiler
+		tools/bfc < bf.bf > bf-stage2.S
+		as -o bf-stage2.o bf-stage2.S
+		gcc -nostdlib -static -o bf-stage2 bf-stage2.o
+
+		# Build the stage3 self-hosted compiler
+		./bf-stage2 < bf.bf > bf.S  # this might take a bit, be patient
+		as -o bf.o bf.S
+		gcc -nostdlib -static -o bf bf.o
+
+	You can also run some of the example programs in tests/
+		./bf < tests/hello.bf > hello.S
+		as -o hello.o hello.S
+		gcc -nostdlib -static -o hello hello.o
+		./hello
+		# Hello World!
 ]
 
 [
